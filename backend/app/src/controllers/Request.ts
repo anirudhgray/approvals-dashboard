@@ -98,7 +98,6 @@ class ManageRequest {
     }
   }
 
-  // TODO add support for workflows needing at least 2/more for approval.
   public static async patchRequestStatus(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
       const requestId = req.params.id;
