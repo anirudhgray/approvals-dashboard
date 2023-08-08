@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider classNames="bg-slate-500" router={router} />
     </>
   )
 }
