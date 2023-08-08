@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Joi from "joi";
 import Validate from "../middlewares/Validate";
-import { authoriseRequester } from "../middlewares/Authorise";
+import { authoriseAdmin, authoriseRequester } from "../middlewares/Authorise";
 import ManageRequest from "../controllers/Request";
 
 const router = Router();
@@ -16,6 +16,7 @@ const schema = {
 
 router.post("/request", Validate.body(schema.createWorkflow), authoriseRequester, ManageRequest.create);
 router.get("/request/me", authoriseRequester, ManageRequest.getRequesterRequests);
+router.get("/request", authoriseAdmin, ManageRequest.getAllRequests);
 
 
 export default router;

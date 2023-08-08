@@ -54,6 +54,18 @@ class ManageRequest {
       return res.status(500).send("Internal server error");
     }
   }
+
+  public static async getAllRequests(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
+    try {
+      const reqs = await Request.find().populate(['createdBy','workflowType']).exec();
+      return res.status(201).json(
+        reqs
+      );
+    } catch (error) {
+      Log.error(error);
+      return res.status(500).send("Internal server error");
+    }
+  }
      
 }
 
