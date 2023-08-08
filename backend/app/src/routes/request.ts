@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Joi from "joi";
 import Validate from "../middlewares/Validate";
-import { authoriseAdmin, authoriseRequester } from "../middlewares/Authorise";
+import { authoriseAdmin, authoriseApprover, authoriseRequester } from "../middlewares/Authorise";
 import ManageRequest from "../controllers/Request";
 
 const router = Router();
@@ -17,6 +17,8 @@ const schema = {
 router.post("/request", Validate.body(schema.createWorkflow), authoriseRequester, ManageRequest.create);
 router.get("/request/me", authoriseRequester, ManageRequest.getRequesterRequests);
 router.get("/request", authoriseAdmin, ManageRequest.getAllRequests);
+router.get("/request/approval", authoriseApprover, ManageRequest.getRequestsForApproval);
+router.patch("/request/approval/:id", authoriseApprover, ManageRequest.patchRequestStatus);
 
 
 export default router;

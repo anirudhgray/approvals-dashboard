@@ -14,12 +14,11 @@ export const sendEmail = async (email: string, subject: string, text: string) =>
     if (process.env.NODE_ENV !== 'test') {
       if (!transporter) {
         transporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 465,
-          secure: true,
+          host: 'smtp.ethereal.email',
+          port: 587,
           auth: {
-            user: process.env.GMAIL_ID,
-            pass: process.env.GMAIL_PASSWORD
+            user: 'kale29@ethereal.email',
+            pass: 'DPv14Qbv4mQRTFNDDT'
           }
         });
       }

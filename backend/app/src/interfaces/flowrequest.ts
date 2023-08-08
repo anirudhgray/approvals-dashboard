@@ -5,7 +5,7 @@ interface IRequest {
     createdBy: Types.ObjectId;
     workflowType: Types.ObjectId;
     description: string;
-    status: number;
+    status: number; // 0 pending, 1 accepted, 2 rejected, 3 justification
 }
 
 export default IRequest;
