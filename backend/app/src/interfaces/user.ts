@@ -10,6 +10,7 @@ export interface IUser {
     email: string;
     name: string;
     password: string;
+    role: number;
 }
 
 export default IUser;

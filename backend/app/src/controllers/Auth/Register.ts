@@ -6,23 +6,30 @@ import { sendEmail } from "../../services/sendEmail";
 class Register {
   public static async signup(req: Request, res: Response): Promise<Response | void> {
     try {
-      const { email, password } = req.body;
+      console.log(req.body);
+      const { name, email, password, role } = req.body;
       const user: IUserModel = await User.findOne({ email });
       if (user) {
         return res.status(400).send("User already exists");
       }
       const hash = v4();
       const newUser = new User({
+        name,
         email,
         password,
+        role,
         verifyHash: hash
       });
+      newUser.isVerified = true;
       await newUser.save();
-      const subject = "Verify your email";
-      const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
-      await sendEmail(user.email, subject, html);
+      // const subject = "Verify your email";
+      // const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
+      // await sendEmail(user.email, subject, html);
+      // return res.status(201).json({
+      //   message: "User created. Check your email to verify your account"
+      // });
       return res.status(201).json({
-        message: "User created. Check your email to verify your account"
+        newUser
       });
     } catch (error) {
       Log.error(error);

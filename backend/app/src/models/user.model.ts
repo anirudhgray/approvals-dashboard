@@ -23,7 +23,8 @@ export const UserSchema = new mongoose.Schema<IUserModel>({
   passwordResetToken: { type: String },
   passwordResetExpires: { type: Date },
   isVerified: { type: Boolean, default: false },
-  verifyHash: { type: String }
+  verifyHash: { type: String },
+  role: {type: Number, required: true}
 }, {
   timestamps: true
 });

@@ -12,6 +12,7 @@ const schema = {
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
+    role: Joi.number().required(),
     confirm: Joi.string().required().equal(Joi.ref("password")),
   }),
   login: Joi.object({
