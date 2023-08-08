@@ -6,7 +6,6 @@ import { sendEmail } from "../../services/sendEmail";
 class Register {
   public static async signup(req: Request, res: Response): Promise<Response | void> {
     try {
-      console.log(req.body);
       const { name, email, password, role } = req.body;
       const user: IUserModel = await User.findOne({ email });
       if (user) {

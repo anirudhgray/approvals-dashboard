@@ -1,6 +1,7 @@
 import os from "os";
 import { Application } from "express";
 import AuthRoute from "../routes/auth";
+import WorkflowRoute from "../routes/workflow";
 import Log from "../middlewares/Log";
 
 /**
@@ -24,6 +25,7 @@ class Routes {
     });
 
     _app.use('/api', AuthRoute);
+    _app.use('/api', WorkflowRoute);
     return _app;
   }
 }
