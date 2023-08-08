@@ -25,6 +25,14 @@ class ManageRequest {
         description
       });
       newReq.status = 0; // active/pending req
+
+      const approvers = flow.approvers;
+      for (let i = 0; i<approvers.length; i++) {
+        const ap = await User.findById(approvers[i]);
+        const subject = "A new request awaiting approval.";
+        const html = `<div><p>Request Description: ${newReq.description}</p><p>Workflow: ${flow.name}</p></div>`;
+        await sendEmail(ap.email, subject, html);
+      }
       await newReq.save();
       return res.status(201).json({
         newReq
