@@ -54,7 +54,7 @@ class ManageRequest {
       } else {
         reqsByUser = await Request.find({createdBy}).populate(['createdBy','workflowType']).exec();
       }
-      return res.status(201).json(
+      return res.status(200).json(
         reqsByUser
       );
     } catch (error) {
@@ -66,7 +66,7 @@ class ManageRequest {
   public static async getAllRequests(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
       const reqs = await Request.find().populate(['createdBy','workflowType']).exec();
-      return res.status(201).json(
+      return res.status(200).json(
         reqs
       );
     } catch (error) {
@@ -79,7 +79,6 @@ class ManageRequest {
     try {
       const approver = await User.findById(req.userId);
       const approverId = approver._id;
-      const filter = { age: { $gte: 30 } };
       const workflows = await Workflow.find({approvers: approverId});
       const workflowIds = workflows.map(doc => doc._id);
 
@@ -90,7 +89,7 @@ class ManageRequest {
       } else {
         reqsForApproval = await Request.find({ workflowType: { $in: workflowIds } });
       }
-      return res.status(201).json(
+      return res.status(200).json(
         reqsForApproval
       );
     } catch (error) {
@@ -122,7 +121,41 @@ class ManageRequest {
       const html = `<div><p>New Status: ${request.status == 1 ? "Accepted" : request.status == 2 ? "Rejected" : "Pending/Justification Needed"}</p><p>Your Request Description: ${request.description}</p></div>`;
       await sendEmail(requester.email, subject, html);
 
-      return res.status(201).json(
+      return res.status(200).json(
+        request
+      );
+    } catch (error) {
+      Log.error(error);
+      return res.status(500).send("Internal server error");
+    }
+  }
+
+  public static async patchRequestDescription(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
+    try {
+      const requestId = req.params.id;
+      const { description } = req.body;
+      const requester = await User.findById(req.userId);
+      const requesterId = requester._id;
+      const request = await Request.findById(requestId);
+      const workflow = await Workflow.findById(request.workflowType);
+      if (!request.createdBy.equals(requesterId)) {
+        console.log(request.createdBy, requesterId);
+        return res.status(400).send("You can't update this one. Not your request.");
+      }
+
+      request.description = description;
+
+      const approvers = workflow.approvers;
+      for (let i = 0; i<approvers.length; i++) {
+        const ap = await User.findById(approvers[i]);
+        const subject = "A justification for an assigned request.";
+        const html = `<div><p>New Request Description: ${request.description}</p><p>Workflow: ${workflow.name}</p></div>`;
+        await sendEmail(ap.email, subject, html);
+      }
+
+      request.save();
+
+      return res.status(200).json(
         request
       );
     } catch (error) {

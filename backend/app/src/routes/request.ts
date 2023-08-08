@@ -19,6 +19,7 @@ router.get("/request/me", authoriseRequester, ManageRequest.getRequesterRequests
 router.get("/request", authoriseAdmin, ManageRequest.getAllRequests);
 router.get("/request/approval", authoriseApprover, ManageRequest.getRequestsForApproval);
 router.patch("/request/approval/:id", authoriseApprover, ManageRequest.patchRequestStatus);
+router.patch("/request/me/:id", authoriseRequester, ManageRequest.patchRequestDescription);
 
 
 export default router;
