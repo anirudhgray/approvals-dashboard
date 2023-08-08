@@ -37,6 +37,19 @@ class ManageWorkflow {
       return res.status(500).send("Internal server error");
     }
   }
+
+  public static async getApprovers(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
+    try {
+      const approvers = await User.find({role: 1});
+      return res.status(200).json(
+        approvers
+      );
+      // return res.status(500).send("Lol");
+    } catch (error) {
+      Log.error(error);
+      return res.status(500).send("Internal server error");
+    }
+  }
      
 }
 

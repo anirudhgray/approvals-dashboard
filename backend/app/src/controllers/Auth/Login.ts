@@ -35,7 +35,8 @@ class Login {
       const token = await user.createToken();
       return res.status(200).json({
         message: "Logged in",
-        token
+        token,
+        user
       });
     } catch (error) {
       Log.error(error);

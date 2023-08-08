@@ -17,6 +17,7 @@ const schema = {
 };
 
 router.post("/workflow", Validate.body(schema.createWorkflow), authoriseAdmin, ManageWorkflow.create);
+router.get("/approvers", authoriseAdmin, ManageWorkflow.getApprovers);
 
 
 export default router;

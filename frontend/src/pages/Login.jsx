@@ -11,10 +11,12 @@ import {
 import axios from '../../axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPasswod] = useState("");
+    const navigate = useNavigate()
 
     const login = async () => {
         try {
@@ -25,7 +27,13 @@ export default function Login() {
             })
             console.log(res)
             localStorage.setItem("token", res.data.token.accessToken)
+            localStorage.setItem("email", res.data.user.email)
+            localStorage.setItem("name", res.data.user.name)
+            localStorage.setItem("role", res.data.user.role)
             toast.success("Logged in!")
+            if (res.data.user.role === 0) {
+                navigate("/admin")
+            }
         } catch (e) {
             console.log(e)
             toast.error(`Oops: ${e?.response?.data || e}`)
