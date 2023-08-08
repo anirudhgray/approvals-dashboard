@@ -74,7 +74,7 @@ export const authoriseAdmin = async (req: GetUserInfoRequest, res: Response, nex
     });
   }
   const user: IUserModel = await User.findOne({_id:req.userId});
-  if (user.role == 0) {
+  if (user.role === 0) {
     next();
   } else {
     return res.status(403).json({
@@ -115,7 +115,7 @@ export const authoriseApprover = async (req: GetUserInfoRequest, res: Response, 
     });
   }
   const user: IUserModel = await User.findOne({_id:req.userId});
-  if (user.role == 1) {
+  if (user.role === 1) {
     next();
   } else {
     return res.status(403).json({
@@ -156,7 +156,7 @@ export const authoriseRequester = async (req: GetUserInfoRequest, res: Response,
     });
   }
   const user: IUserModel = await User.findOne({_id:req.userId});
-  if (user.role == 2) {
+  if (user.role === 2) {
     next();
   } else {
     return res.status(403).json({

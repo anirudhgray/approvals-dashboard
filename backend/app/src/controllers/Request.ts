@@ -22,7 +22,7 @@ class ManageRequest {
         createdBy,
         approvalLevel, 
         workflowType,
-        description
+        description,
       });
       newReq.status = 0; // active/pending req
 
@@ -110,20 +110,67 @@ class ManageRequest {
       if (!workflow.approvers.includes(approverId)) {
         return res.status(400).send("You can't approve this one. Not assigned to you.");
       }
-
       const requester = await User.findById(request.createdBy);
 
-      request.status = status;
+      if (status === 1) {
+        if (request.approvedBy?.length) {
+          request.approvedBy.push(approverId);
+        } else {
+          request.approvedBy = [approverId];
+        }
+      } else if (status ===2) {
+        request.approvedBy = null;
+      }
+
+
+      // single approval needed
+      if (workflow.approvalLevel === 0 || status !== 1) {
+        request.status = status;
+        request.save();
+
+        const subject = "An update on your request.";
+        // const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
+        const html = `<div><p>New Status: ${request.status === 1 ? "Accepted" : request.status === 2 ? "Rejected" : "Pending/Justification Needed"}</p><p>Your Request Description: ${request.description}</p></div>`;
+        await sendEmail(requester.email, subject, html);
+
+        return res.status(200).json(
+          request
+        );
+      } 
+      // 2 or more approvals needed
+      else if (workflow.approvalLevel === 1 && request.approvedBy.length>=2) {
+        request.status = status;
+        request.save();
+
+        const subject = "An update on your request.";
+        // const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
+        const html = `<div><p>New Status: ${request.status === 1 ? "Accepted" : request.status === 2 ? "Rejected" : "Pending/Justification Needed"}</p><p>Your Request Description: ${request.description}</p></div>`;
+        await sendEmail(requester.email, subject, html);
+
+        return res.status(200).json(
+          request
+        );
+      }
+      // all approvals needed
+      else if (workflow.approvalLevel === 2 && request.approvedBy.length==workflow.approvers.length) {
+        request.status = status;
+        request.save();
+
+        const subject = "An update on your request.";
+        // const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
+        const html = `<div><p>New Status: ${request.status === 1 ? "Accepted" : request.status === 2 ? "Rejected" : "Pending/Justification Needed"}</p><p>Your Request Description: ${request.description}</p></div>`;
+        await sendEmail(requester.email, subject, html);
+
+        return res.status(200).json(
+          request
+        );
+      }
+
       request.save();
-
-      const subject = "An update on your request.";
-      // const html = `<a href="http://${req.get('host')}/verify/${newUser._id}/${hash}">Verify your email</a>`;
-      const html = `<div><p>New Status: ${request.status == 1 ? "Accepted" : request.status == 2 ? "Rejected" : "Pending/Justification Needed"}</p><p>Your Request Description: ${request.description}</p></div>`;
-      await sendEmail(requester.email, subject, html);
-
       return res.status(200).json(
         request
       );
+
     } catch (error) {
       Log.error(error);
       return res.status(500).send("Internal server error");

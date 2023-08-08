@@ -8,6 +8,8 @@ import { GetUserInfoRequest } from "../interfaces/request";
 
 
 class ManageWorkflow {
+  // TODO edit workflows
+  // TODO edit roles/perms
 
   public static async create(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
