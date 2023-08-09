@@ -17,9 +17,10 @@ export default class Redis {
    */
   public static async init(): Promise<void> {
     try {
-      this.client = redis.createClient({
-        url: process.env.REDIS_URI,
-      });
+      // this.client = redis.createClient({
+      //   url: process.env.REDIS_URI,
+      // });
+      this.client = redis.createClient();
       this.client.on("connect", () => {
         Log.info("Redis :: Connected");
       });

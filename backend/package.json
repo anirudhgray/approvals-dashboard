@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mongodb": "^5.7.0"
+    "mongodb": "^5.7.0",
+    "redis": "^4.6.7"
   }
 }
