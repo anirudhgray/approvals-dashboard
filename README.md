@@ -2,6 +2,15 @@
 ## Anirudh Mishra
 
 API Docs: [Postman](https://documenter.getpostman.com/view/19697822/2s9Xy2Nrir)
+Live Demo: [YouTube, Part 1](https://youtu.be/MPZqCgrCNbg)
+Live Demo: [YouTube, Part 2](https://youtu.be/SXivGtwgO6w) (forgot to show implementation of last few features in first video.)
+
+Features:
+- SSE for asynchronicity (currently only implemented for the Admin History as shown in the live demo, working on the same for other routes as well).
+- Email notifications.
+- Various workflow types, with differing acceptance criterias. Admins can assign approval-users for each workflow, as needed.
+- Users are notified if approver wants further justification for a request, and can revert back to them.
+- etc.
 
 # Running Locally:
 1. Clone the Repo.

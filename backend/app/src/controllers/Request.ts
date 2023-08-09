@@ -234,6 +234,27 @@ class ManageRequest {
       clearInterval(interval);
     });
   }
+
+  // public static async approverSSE(req:any, res:any) {
+  //   res.setHeader('Content-Type', 'text/event-stream');
+  //   res.setHeader('Cache-Control', 'no-cache');
+  //   res.setHeader('Connection', 'keep-alive');
+  //   res.setHeader('Access-Control-Allow-Origin', '*'); // Adjust this based on your CORS requirements
+  //   // Send initial response
+  //   // res.write('data: Initial data\n\n');
+  
+  //   // Simulate sending data periodically
+  //   const interval = setInterval(async () => {
+  //     const data = await Request.find({ workflowType: { $in: workflowIds } }).populate(['approvedBy','createdBy','workflowType']).exec();;
+  //     res.write(`data: ${JSON.stringify(data)}\n\n`);
+  //     res.flush();
+  //   }, 3000); // Send data every 3 seconds
+  
+  //   // Clean up on client disconnect
+  //   res.on('close', () => {
+  //     clearInterval(interval);
+  //   });
+  // }
 }
 
 export default ManageRequest;
