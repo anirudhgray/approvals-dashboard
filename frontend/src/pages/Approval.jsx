@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import { logout } from '../utils/logout';
 import AssignedWorkflows from '../components/approval/AssignedWorkflows';
 import ApprovalRequests from '../components/approval/ApprovalRequests';
+import { datesort } from '../utils/datesort';
 
 export default function Approval() {
     const [activeTab, setActiveTab] = useState('requests')
@@ -25,15 +26,15 @@ export default function Approval() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                const res2 = await axios.get("/api/request/approval", {
-                    params: {
-                        status: 3
-                    },
-                    headers:{
-                        Authorization: localStorage.getItem("token")
-                    }
-                })
-                setRequests([...res1.data, ...res2.data])
+                // const res2 = await axios.get("/api/request/approval", {
+                //     params: {
+                //         status: 3
+                //     },
+                //     headers:{
+                //         Authorization: localStorage.getItem("token")
+                //     }
+                // })
+                setRequests([...datesort(res1.data)])
             }
             const getAssignedWorkflows = async () => {
                 const res = await axios.get("/api/approvers/workflow", {

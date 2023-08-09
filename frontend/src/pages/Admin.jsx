@@ -6,6 +6,7 @@ import RequestHistory from '../components/admin/RequestHistory';
 import Dashboard from '../components/admin/Dashboard';
 import Footer from '../components/Footer';
 import { logout } from '../utils/logout';
+import { datesort } from '../utils/datesort';
 
 export default function Admin() {
     const [activeTab, setActiveTab] = useState('create')
@@ -29,7 +30,8 @@ export default function Admin() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                setRequests(res.data)
+                console.log(datesort(res.data))
+                setRequests(datesort(res.data))
             }
             getApprovers()
             getRequests()
