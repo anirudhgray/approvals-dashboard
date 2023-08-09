@@ -563,7 +563,7 @@
 
 "@mantine/dropzone@^6.0.18":
   version "6.0.18"
-  resolved "https://registry.npmjs.org/@mantine/dropzone/-/dropzone-6.0.18.tgz"
+  resolved "https://registry.yarnpkg.com/@mantine/dropzone/-/dropzone-6.0.18.tgz#a7f69a9ff52bbfd443fc04cdf02851969850439f"
   integrity sha512-STxlkgSUELXSp9HUfKyMdI4QeNsKkpBKgyzzmrKq/jvGEQh6gWZ8PdO2uBR9i/QzK0TmC4ppjFytC9inIBVefw==
   dependencies:
     "@mantine/utils" "6.0.18"
