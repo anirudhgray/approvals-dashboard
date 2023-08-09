@@ -14,6 +14,20 @@ export default function Admin() {
     const [requests, setRequests] = useState([])
 
     useEffect(() => {
+        const eventSource = new EventSource('http://localhost:3000/api/request/data-stream');
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            // console.log(data)
+            setRequests(datesort(data))
+            // Handle the received data, e.g., update the UI
+        };
+    },[])
+
+    useEffect(() => {
+        setRequests(requests)
+    }, [requests])
+
+    useEffect(() => {
         try {
             const getApprovers = async () => {
                 const res = await axios.get("/api/approvers", {

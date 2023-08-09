@@ -21,5 +21,7 @@ router.get("/request/approval", authoriseApprover, ManageRequest.getRequestsForA
 router.patch("/request/approval/:id", authoriseApprover, ManageRequest.patchRequestStatus);
 router.patch("/request/me/:id", authoriseRequester, ManageRequest.patchRequestDescription);
 
+router.get('/request/data-stream', ManageRequest.adminSSE);
+
 
 export default router;
