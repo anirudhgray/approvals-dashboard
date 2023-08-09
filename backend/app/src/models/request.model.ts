@@ -6,7 +6,8 @@ export const RequestSchema = new mongoose.Schema<IRequest>({
   workflowType: { type: mongoose.Schema.Types.ObjectId, ref: "Workflow", required: true},
   description: {type: String, required: true},
   status: {type: Number, required: true},
-  approvedBy: [{type: mongoose.Schema.Types.ObjectId, ref: "User", required: false}]
+  approvedBy: [{type: mongoose.Schema.Types.ObjectId, ref: "User", required: false}],
+  rejectedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
 }, {
   timestamps: true
 });

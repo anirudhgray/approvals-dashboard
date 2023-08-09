@@ -31,9 +31,7 @@ export default function Login() {
             localStorage.setItem("name", res.data.user.name)
             localStorage.setItem("role", res.data.user.role)
             toast.success("Logged in!")
-            if (res.data.user.role === 0) {
-                navigate("/admin")
-            }
+            navigate("/dashboard")
         } catch (e) {
             console.log(e)
             toast.error(`Oops: ${e?.response?.data || e}`)

@@ -5,6 +5,7 @@ import axios from '../../axios'
 import RequestHistory from '../components/admin/RequestHistory';
 import Dashboard from '../components/admin/Dashboard';
 import Footer from '../components/Footer';
+import { logout } from '../utils/logout';
 
 export default function Admin() {
     const [activeTab, setActiveTab] = useState('create')
@@ -40,7 +41,7 @@ export default function Admin() {
         <>
         <div className='m-10 relative'>
             <h1 className='font-bold'>APPROVAGANZA</h1>
-            <Button variant='light' color='red' className="absolute top-0 right-0">Logout</Button>
+            <Button onClick={logout} variant='light' color='red' className="absolute top-0 right-0">Logout</Button>
             <h1>Admin</h1>
             <p>Welcome, {localStorage.getItem("name")}.</p>
             <Tabs className='mt-5' value={activeTab} onTabChange={setActiveTab}>

@@ -53,7 +53,7 @@ class ManageWorkflow {
 
   public static async getApproverWorkflows(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
-      const workflows = await Workflow.find({approvers: req.userId});
+      const workflows = await Workflow.find({approvers: req.userId}).populate(['createdBy','approvers']).exec();
       return res.status(200).json(
         workflows
       );
