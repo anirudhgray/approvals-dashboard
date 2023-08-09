@@ -50,9 +50,9 @@ class ManageRequest {
       const createdBy = requester._id;
       let reqsByUser;
       if (req.query.status) {
-        reqsByUser = await Request.find({createdBy, status: req.query.status}).populate(['createdBy','workflowType']).exec();
+        reqsByUser = await Request.find({createdBy, status: req.query.status}).populate(['createdBy','workflowType','approvedBy']).exec();
       } else {
-        reqsByUser = await Request.find({createdBy}).populate(['createdBy','workflowType']).exec();
+        reqsByUser = await Request.find({createdBy}).populate(['createdBy','workflowType','approvedBy']).exec();
       }
       return res.status(200).json(
         reqsByUser
@@ -65,7 +65,7 @@ class ManageRequest {
 
   public static async getAllRequests(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
-      const reqs = await Request.find().populate(['createdBy','workflowType']).exec();
+      const reqs = await Request.find().populate(['createdBy','workflowType','approvedBy']).exec();
       return res.status(200).json(
         reqs
       );
@@ -85,9 +85,9 @@ class ManageRequest {
       let reqsForApproval;
 
       if (req.query.status) {
-        reqsForApproval = await Request.find({ workflowType: { $in: workflowIds }, status: req.query.status });
+        reqsForApproval = await Request.find({ workflowType: { $in: workflowIds }, status: req.query.status }).populate(['approvedBy']).exec();
       } else {
-        reqsForApproval = await Request.find({ workflowType: { $in: workflowIds } });
+        reqsForApproval = await Request.find({ workflowType: { $in: workflowIds } }).populate(['approvedBy']).exec();
       }
       return res.status(200).json(
         reqsForApproval

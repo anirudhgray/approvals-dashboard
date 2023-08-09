@@ -2,7 +2,7 @@ import { Router } from "express";
 import Joi from "joi";
 import Validate from "../middlewares/Validate";
 import ManageWorkflow from "../controllers/Workflow";
-import { authoriseAdmin } from "../middlewares/Authorise";
+import { authoriseAdmin, authoriseApprover, authoriseRequester } from "../middlewares/Authorise";
 
 const router = Router();
 
@@ -17,6 +17,8 @@ const schema = {
 };
 
 router.post("/workflow", Validate.body(schema.createWorkflow), authoriseAdmin, ManageWorkflow.create);
+router.get("/workflow", authoriseRequester, ManageWorkflow.getWorkflows);
+router.get("/approvers/workflow", authoriseApprover, ManageWorkflow.getApproverWorkflows);
 router.get("/approvers", authoriseAdmin, ManageWorkflow.getApprovers);
 
 

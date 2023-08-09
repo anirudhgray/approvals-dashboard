@@ -38,6 +38,32 @@ class ManageWorkflow {
     }
   }
 
+  public static async getWorkflows(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
+    try {
+      const workflows = await Workflow.find();
+      return res.status(200).json(
+        workflows
+      );
+      // return res.status(500).send("Lol");
+    } catch (error) {
+      Log.error(error);
+      return res.status(500).send("Internal server error");
+    }
+  }
+
+  public static async getApproverWorkflows(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
+    try {
+      const workflows = await Workflow.find({approvers: req.userId});
+      return res.status(200).json(
+        workflows
+      );
+      // return res.status(500).send("Lol");
+    } catch (error) {
+      Log.error(error);
+      return res.status(500).send("Internal server error");
+    }
+  }
+
   public static async getApprovers(req: GetUserInfoRequest, res: Response): Promise<Response | void> {
     try {
       const approvers = await User.find({role: 1});
