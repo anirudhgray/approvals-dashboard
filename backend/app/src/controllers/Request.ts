@@ -191,6 +191,7 @@ class ManageRequest {
         console.log(request.createdBy, requesterId);
         return res.status(400).send("You can't update this one. Not your request.");
       }
+      request.status = 0;
 
       request.description = description;
 

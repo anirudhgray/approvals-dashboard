@@ -42,9 +42,9 @@ export default function Login() {
         <div className='h-screen w-screen flex flex-col'>
             <div className={"m-auto md:w-7/12 w-5/6"}>
                 <Paper radius={0} p={30}>
-                <Title order={2} ta="center" mt="md" mb={50}>
-                    Welcome!
-                </Title>
+
+                <h1 className='font-bold text-center'>APPROVAGANZA</h1>
+                <p className='text-sm text-center mb-8'>by Anirudh Mishra</p>
         
                 <TextInput label="Email address" value={email} onChange={e => setEmail(e.currentTarget.value)} placeholder="hello@gmail.com" size="md" />
                 <PasswordInput value={password} onChange={e => setPasswod(e.currentTarget.value)} label="Password" placeholder="Your password" mt="md" size="md" />

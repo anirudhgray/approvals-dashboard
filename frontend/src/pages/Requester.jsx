@@ -6,6 +6,8 @@ import axios from '../../axios'
 import { toast } from 'react-toastify'
 import CreateRequest from '../components/requester/CreateRequest'
 import RequestList from '../components/requester/RequestList'
+import JustificationList from '../components/requester/JustificationList'
+import { datesort } from '../utils/datesort'
 
 export default function Requester() {
     const [activeTab, setActiveTab] = useState("create")
@@ -40,7 +42,7 @@ export default function Requester() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                setPending(res.data)
+                setPending(datesort(res.data))
                 res = await axios.get("/api/request/me", {
                     params: {
                         status: 1
@@ -49,7 +51,7 @@ export default function Requester() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                setAccepted(res.data)
+                setAccepted(datesort(res.data))
                 res = await axios.get("/api/request/me",{
                     params: {
                         status: 2
@@ -58,7 +60,7 @@ export default function Requester() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                setRejected(res.data)
+                setRejected(datesort(res.data))
                 res = await axios.get("/api/request/me",{
                     params: {
                         status: 3
@@ -67,7 +69,7 @@ export default function Requester() {
                         Authorization: localStorage.getItem("token")
                     }
                 })
-                setJustificationNeeded(res.data)
+                setJustificationNeeded(datesort(res.data))
             } catch (e) {
                 console.log(e)
                 toast.error(e?.response?.data)
@@ -101,7 +103,7 @@ export default function Requester() {
                     </Tabs.Panel>
 
                     <Tabs.Panel value="justification" pt="xs">
-                        <RequestList title={"Justification Needed"} requests={justificationNeeded} />
+                        <JustificationList title={"Justification Needed"} requests={justificationNeeded} />
                     </Tabs.Panel>
 
                     <Tabs.Panel value="accepted" pt="xs">
